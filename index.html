@@ -187,29 +187,162 @@
                 </div>
             </div>
 
-            <!-- VIEW: ESTRATÉGIA (INTACTA) -->
+            <!-- VIEW: ESTRATÉGIA (ATUALIZADA GLOBALMENTE) -->
             <div id="content-strategic" class="tab-content space-y-8 animate-fade-in text-stone-900">
-                <div class="strat-header p-10 rounded-3xl relative overflow-hidden shadow-2xl border-b-8 border-yellow-400">
-                    <div class="strat-number-bg" id="strat-number">1</div>
-                    <h2 class="text-[10px] font-bold uppercase tracking-[0.3em] text-yellow-400 mb-6">Definição do Caderno de Encargos</h2>
-                    <h3 id="strat-segment-name" class="text-4xl font-black mb-8 tracking-tighter">Público Geral</h3>
-                    <p id="strat-definition" class="text-lg text-stone-300 leading-relaxed font-serif max-w-3xl opacity-90">...</p>
+                <div class="border-b border-stone-100 pb-6">
+                    <h2 class="text-3xl font-black text-stone-900 uppercase italic tracking-tighter">Estratégia Global por Segmento</h2>
+                    <p class="text-stone-500 text-sm mt-1">Objetivos e entregáveis estratégicos alinhados com as motivações e gatilhos de cada audiência.</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm hover:border-yellow-200 transition-colors">
-                        <div class="flex items-center gap-3 mb-6 text-stone-900">
-                            <div class="bg-stone-900 text-white w-6 h-6 flex items-center justify-center rounded-full text-[10px] font-black italic">!</div>
-                            <h4 class="text-xs font-black uppercase tracking-widest">Missão Estratégica</h4>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- 1. Inês -->
+                    <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm hover:border-yellow-400 transition-colors flex flex-col">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="bg-stone-900 text-yellow-400 w-10 h-10 flex items-center justify-center rounded-xl font-black text-lg flex-shrink-0">1</div>
+                            <div>
+                                <h3 class="text-lg font-black uppercase tracking-tight text-stone-900 leading-none">Inês – Público Geral</h3>
+                                <p class="text-[10px] text-stone-500 font-bold uppercase tracking-widest mt-1">Jovem profissional, procura informação confiável.</p>
+                            </div>
                         </div>
-                        <p id="strat-mission" class="text-sm leading-relaxed italic text-stone-700">...</p>
-                    </div>
-                    <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm">
-                        <div class="flex items-center gap-3 mb-6 text-stone-900">
-                            <div class="bg-stone-900 text-white w-6 h-6 flex items-center justify-center rounded-full text-[10px] font-black italic">✓</div>
-                            <h4 class="text-xs font-black uppercase tracking-widest">Principais Entregáveis</h4>
+                        <div class="space-y-6 flex-grow flex flex-col">
+                            <div class="bg-stone-50 p-5 rounded-xl border border-stone-100 border-l-4 border-l-yellow-400">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-1">Objetivo Estratégico</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Transformar curiosidade mediática em interesse sustentado por conteúdos claros e verificáveis.</p>
+                            </div>
+                            <div class="bg-white flex-grow pt-2">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-3 flex items-center gap-1"><span class="text-lg">✓</span> Principais Entregáveis</span>
+                                <ul class="text-xs space-y-3 font-medium text-stone-700">
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Infografias de contexto e vídeos curtos (“Explique-me em 3 minutos”)</span></li>
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Glossário de Direitos Humanos com linguagem acessível</span></li>
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Resumos de atualidade verificados</span></li>
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Newsletter curada com fact-checking rápido</span></li>
+                                </ul>
+                            </div>
                         </div>
-                        <ul id="strat-deliverables" class="text-sm space-y-3 list-disc pl-5 font-medium text-stone-700"></ul>
                     </div>
+
+                    <!-- 2. Ricardo -->
+                    <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm hover:border-yellow-400 transition-colors flex flex-col">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="bg-stone-900 text-yellow-400 w-10 h-10 flex items-center justify-center rounded-xl font-black text-lg flex-shrink-0">2</div>
+                            <div>
+                                <h3 class="text-lg font-black uppercase tracking-tight text-stone-900 leading-none">Ricardo – Comunidade Amnistia</h3>
+                                <p class="text-[10px] text-stone-500 font-bold uppercase tracking-widest mt-1">Membro ativo, procura eficiência cívica máxima.</p>
+                            </div>
+                        </div>
+                        <div class="space-y-6 flex-grow flex flex-col">
+                            <div class="bg-stone-50 p-5 rounded-xl border border-stone-100 border-l-4 border-l-yellow-400">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-1">Objetivo Estratégico</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Facilitar ação rápida, impacto mensurável e fidelização.</p>
+                            </div>
+                            <div class="bg-white flex-grow pt-2">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-3 flex items-center gap-1"><span class="text-lg">✓</span> Principais Entregáveis</span>
+                                <ul class="text-xs space-y-3 font-medium text-stone-700">
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Dashboard pessoal com status de contribuições</span></li>
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Petições 1-click e campanhas urgentes</span></li>
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Hub de Vitórias e estatísticas de impacto</span></li>
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Donativo expresso e gestão de quotas</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Marta -->
+                    <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm hover:border-yellow-400 transition-colors flex flex-col">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="bg-stone-900 text-yellow-400 w-10 h-10 flex items-center justify-center rounded-xl font-black text-lg flex-shrink-0">3</div>
+                            <div>
+                                <h3 class="text-lg font-black uppercase tracking-tight text-stone-900 leading-none">Marta – Academia & Media</h3>
+                                <p class="text-[10px] text-stone-500 font-bold uppercase tracking-widest mt-1">Jornalista/Académica, usa o site como fonte técnica.</p>
+                            </div>
+                        </div>
+                        <div class="space-y-6 flex-grow flex flex-col">
+                            <div class="bg-stone-50 p-5 rounded-xl border border-stone-100 border-l-4 border-l-yellow-400">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-1">Objetivo Estratégico</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Afirmar autoridade técnica e institucional da Amnistia como referência segura.</p>
+                            </div>
+                            <div class="bg-white flex-grow pt-2">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-3 flex items-center gap-1"><span class="text-lg">✓</span> Principais Entregáveis</span>
+                                <ul class="text-xs space-y-3 font-medium text-stone-700">
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Repositório de relatórios e artigos oficiais</span></li>
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Filtros avançados e busca eficiente</span></li>
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>PDFs para download e citação</span></li>
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Seções de análise jurídica e contextualização de conflitos</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Ana -->
+                    <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm hover:border-yellow-400 transition-colors flex flex-col">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="bg-stone-900 text-yellow-400 w-10 h-10 flex items-center justify-center rounded-xl font-black text-lg flex-shrink-0">4</div>
+                            <div>
+                                <h3 class="text-lg font-black uppercase tracking-tight text-stone-900 leading-none">Ana – Vítimas & Apoio</h3>
+                                <p class="text-[10px] text-stone-500 font-bold uppercase tracking-widest mt-1">Situação de urgência ou vulnerabilidade.</p>
+                            </div>
+                        </div>
+                        <div class="space-y-6 flex-grow flex flex-col">
+                            <div class="bg-stone-50 p-5 rounded-xl border border-stone-100 border-l-4 border-l-yellow-400">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-1">Objetivo Estratégico</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Providenciar linha de vida digital segura, com apoio prático e imediato.</p>
+                            </div>
+                            <div class="bg-white flex-grow pt-2">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-3 flex items-center gap-1"><span class="text-lg">✓</span> Principais Entregáveis</span>
+                                <ul class="text-xs space-y-3 font-medium text-stone-700">
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Contactos de emergência visíveis e acessíveis</span></li>
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Formulários de denúncia segura e fluxo rápido</span></li>
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Orientações práticas e guias de proteção</span></li>
+                                    <li class="flex items-start gap-2"><span class="text-yellow-500 mt-0.5">▪</span> <span>Quick Exit e recursos de suporte emocional</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NOTA ESTRATÉGICA FINAL -->
+                <div class="mt-8 bg-stone-900 text-white p-8 rounded-3xl shadow-xl relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-2 h-full bg-yellow-400"></div>
+                    <h4 class="text-lg font-black uppercase tracking-tight text-yellow-400 mb-4 flex items-center gap-2">
+                        <span class="text-2xl">💡</span> Nota Estratégica
+                    </h4>
+                    <p class="text-sm text-stone-300 mb-6 leading-relaxed">
+                        As quatro personas definidas representam <strong>todos os perfis estratégicos e funcionais</strong> do ecossistema digital da Amnistia Internacional Portugal. Não é necessário adicionar novas personas, pois estas cobrem integralmente o espetro de públicos-alvo da plataforma:
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                        <div class="flex items-center gap-3 p-4 bg-white/5 rounded-xl border border-white/10">
+                            <span class="text-xl">🌍</span>
+                            <div>
+                                <span class="text-xs font-black uppercase tracking-widest text-white">Inês</span>
+                                <p class="text-[11px] text-stone-400 mt-0.5">Cidadãos interessados em informação confiável e no combate às fake news.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-4 bg-white/5 rounded-xl border border-white/10">
+                            <span class="text-xl">✊</span>
+                            <div>
+                                <span class="text-xs font-black uppercase tracking-widest text-white">Ricardo</span>
+                                <p class="text-[11px] text-stone-400 mt-0.5">Membros ativos, dadores regulares e o núcleo de ativismo primário.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-4 bg-white/5 rounded-xl border border-white/10">
+                            <span class="text-xl">📊</span>
+                            <div>
+                                <span class="text-xs font-black uppercase tracking-widest text-white">Marta</span>
+                                <p class="text-[11px] text-stone-400 mt-0.5">Jornalistas, académicos, investigadores e opinion makers.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-4 bg-white/5 rounded-xl border border-white/10">
+                            <span class="text-xl">🆘</span>
+                            <div>
+                                <span class="text-xs font-black uppercase tracking-widest text-white">Ana</span>
+                                <p class="text-[11px] text-stone-400 mt-0.5">Vítimas ou pessoas em situação de urgência que procuram canais seguros de apoio.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-sm font-medium text-stone-300 italic border-t border-white/10 pt-5">
+                        Em resumo: estas quatro personas permitem mapear todos os objetivos, entregáveis e jornadas de forma completa e alinhada com a missão do site.
+                    </p>
+                    <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-yellow-400/10 rounded-full blur-[80px]"></div>
                 </div>
             </div>
 
@@ -849,12 +982,17 @@
             document.getElementById('bio-motivations-list').innerHTML = (data.motivations || []).map(m => `<li>• ${m}</li>`).join('');
             document.getElementById('bio-objectives-list').innerHTML = (data.objectives || []).map(o => `<li>• ${o}</li>`).join('');
 
-            // Strategy UI Update
-            document.getElementById('strat-number').innerText = data.id;
-            document.getElementById('strat-segment-name').innerText = data.segment;
-            document.getElementById('strat-definition').innerText = data.stratDefinition || data.profile;
-            document.getElementById('strat-mission').innerText = data.stratMission || "...";
-            document.getElementById('strat-deliverables').innerHTML = (data.stratDeliverables || []).map(d => `<li>${d}</li>`).join('');
+            // Strategy UI Update (Protegido com "if" para não quebrar o layout global fixo)
+            const elStratNumber = document.getElementById('strat-number');
+            if(elStratNumber) elStratNumber.innerText = data.id;
+            const elStratSegName = document.getElementById('strat-segment-name');
+            if(elStratSegName) elStratSegName.innerText = data.segment;
+            const elStratDef = document.getElementById('strat-definition');
+            if(elStratDef) elStratDef.innerText = data.stratDefinition || data.profile;
+            const elStratMission = document.getElementById('strat-mission');
+            if(elStratMission) elStratMission.innerText = data.stratMission || "...";
+            const elStratDeliv = document.getElementById('strat-deliverables');
+            if(elStratDeliv) elStratDeliv.innerHTML = (data.stratDeliverables || []).map(d => `<li>${d}</li>`).join('');
 
             // Jornadas (Flow) UI Update Integrado
             const triggerGoal = document.getElementById('flow-trigger-goal');
