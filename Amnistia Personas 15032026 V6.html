@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amnistia Portugal - Dashboard Estratégico Digital 2026</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { background-color: #fafaf9; color: #1c1917; scroll-behavior: smooth; }
+        .chart-container { position: relative; width: 100%; max-width: 420px; margin: 0 auto; height: 300px; }
+        
+        .nav-active { border-bottom: 3px solid #ca8a04; color: #1c1917; font-weight: 800; }
+        .nav-inactive { color: #78716c; border-bottom: 3px solid transparent; }
+        .nav-inactive:hover { color: #44403c; border-bottom-color: #e7e5e4; }
+        
+        .persona-btn.active { background-color: #fef08a; border-left: 4px solid #ca8a04; font-weight: bold; }
+        .persona-btn.inactive:hover { background-color: #f5f5f4; border-left: 4px solid #e5e7eb; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-fade-in { animation: fadeIn 0.4s ease-out forwards; }
+
+        /* Hierarquia do Sitemap (Restaurada) */
+        .sitemap-detail { border-left: 1px solid #e5e7eb; margin-left: 0.75rem; padding-left: 0.75rem; position: relative; margin-top: 0.25rem; }
+        .sitemap-detail::before { content: ''; position: absolute; left: 0; top: 0.75rem; width: 0.5rem; height: 1px; background: #e5e7eb; }
+        .sub-detail { border-left: 1px dashed #cbd5e1; margin-left: 1rem; padding-left: 0.75rem; font-size: 7.5px; color: #94a3b8; padding-top: 0.15rem; }
+        
+        .page-tag { font-size: 8px; font-weight: 900; padding: 1px 4px; border-radius: 2px; margin-left: 4px; border: 1px solid #e5e7eb; background: #fff; color: #78716c; }
+
+        /* Strategic View Stylings */
+        .strat-header { background: #1c1917; color: #fff; }
+        .strat-number-bg { position: absolute; top: -10px; right: 20px; font-size: 160px; font-weight: 900; opacity: 0.08; color: #fff; pointer-events: none; }
+
+        .btn-doar-global {
+            background-color: #facc15;
+            color: #1c1917;
+            font-weight: 900;
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .btn-doar-global:hover { background-color: #000; color: #facc15; }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Área Pessoal Toggles */
+        .switch { position: relative; display: inline-block; width: 34px; height: 20px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #e7e5e4; transition: .4s; border-radius: 20px; }
+        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #facc15; }
+        input:checked + .slider:before { transform: translateX(14px); }
+
+        .req-card { background: #fff; border: 1px solid #e7e5e4; border-radius: 20px; padding: 1.5rem; transition: all 0.2s; }
+        .req-card:hover { border-color: #facc15; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05); }
+        .req-badge { font-size: 9px; font-weight: 900; background: #facc15; color: #1c1917; padding: 2px 8px; border-radius: 99px; text-transform: uppercase; }
+        .metric-value { font-family: monospace; font-weight: bold; font-size: 1.25rem; color: #1c1917; }
+        .integration-icon { width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; font-weight: 900; font-size: 18px; }
+        .homepage-hero { background: #1c1917; color: #facc15; border: 2px solid #facc15; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans selection:bg-yellow-200">
+
+    <!-- HEADER INTACTO -->
+    <header class="bg-white border-b border-stone-200 px-6 py-4 shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="flex items-center gap-6">
+                <img src="https://www.amnistia.pt/wp-content/uploads/2017/05/logo-395x168.png" alt="Amnistia Internacional Portugal" class="h-12 md:h-14 w-auto object-contain">
+                <div class="h-10 w-px bg-stone-200 hidden lg:block"></div>
+                <div class="hidden lg:block leading-tight text-stone-900">
+                    <h1 class="text-sm font-black uppercase tracking-tight">Dashboard Estratégico</h1>
+                    <p class="text-[10px] text-stone-400 uppercase tracking-widest font-black italic">Ecossistema Digital • © 2026</p>
+                </div>
+            </div>
+            
+            <nav class="flex gap-3 lg:gap-6 text-[9px] lg:text-[10px] font-bold uppercase tracking-widest text-stone-900 overflow-x-auto pb-2 md:pb-0">
+                <button onclick="switchTab('bio')" id="nav-bio" class="nav-active whitespace-nowrap pb-2 transition-all">Perfis</button>
+                <button onclick="switchTab('strategic')" id="nav-strategic" class="nav-inactive whitespace-nowrap pb-2 transition-all">Estratégia</button>
+                <button onclick="switchTab('flow')" id="nav-flow" class="nav-inactive whitespace-nowrap pb-2 transition-all">Jornadas</button>
+                <button onclick="switchTab('sitemap')" id="nav-sitemap" class="nav-inactive whitespace-nowrap pb-2 transition-all">Sitemap</button>
+                <button onclick="switchTab('integrations')" id="nav-integrations" class="nav-inactive whitespace-nowrap pb-2 transition-all">Integrações</button>
+                <button onclick="switchTab('personal')" id="nav-personal" class="nav-inactive whitespace-nowrap pb-2 transition-all">Área Pessoal</button>
+                <button onclick="switchTab('requirements')" id="nav-requirements" class="nav-inactive whitespace-nowrap pb-2 transition-all">Requisitos</button>
+                <button onclick="switchTab('relations')" id="nav-relations" class="nav-inactive whitespace-nowrap pb-2 transition-all">Relações</button>
+            </nav>
+
+            <button class="btn-doar-global text-[11px] hidden sm:block">Doar Agora</button>
+        </div>
+    </header>
+
+    <main class="flex-grow flex flex-col md:flex-row max-w-7xl mx-auto w-full mt-8 gap-8 px-4 pb-20">
+        
+        <!-- SIDEBAR DE PERSONAS INTACTA -->
+        <aside id="aside-personas" class="w-full md:w-64 flex-shrink-0 flex flex-col gap-2 text-stone-900">
+            <p class="text-[10px] font-black uppercase tracking-[0.2em] text-stone-400 mb-2 px-2">Segmentos de Audiência</p>
+            <button onclick="updatePersona('p1')" id="btn-p1" class="persona-btn active text-left px-4 py-3 rounded-r-lg flex flex-col group border-l-4 transition-all">
+                <span class="text-[9px] font-black text-stone-500 uppercase">Persona 1</span>
+                <span class="text-sm">Inês: Público Geral</span>
+            </button>
+            <button onclick="updatePersona('p2')" id="btn-p2" class="persona-btn inactive text-left px-4 py-3 rounded-r-lg flex flex-col group border-l-4 border-transparent transition-all">
+                <span class="text-[9px] font-black text-stone-500 uppercase">Persona 2</span>
+                <span class="text-sm">Ricardo: Comunidade</span>
+            </button>
+            <button onclick="updatePersona('p3')" id="btn-p3" class="persona-btn inactive text-left px-4 py-3 rounded-r-lg flex flex-col group border-l-4 border-transparent transition-all">
+                <span class="text-[9px] font-black text-stone-500 uppercase">Persona 3</span>
+                <span class="text-sm">Marta: Academia & Media</span>
+            </button>
+            <button onclick="updatePersona('p4')" id="btn-p4" class="persona-btn inactive text-left px-4 py-3 rounded-r-lg flex flex-col group border-l-4 border-transparent transition-all">
+                <span class="text-[9px] font-black text-stone-500 uppercase">Persona 4</span>
+                <span class="text-sm">Ana: Vítimas & Apoio</span>
+            </button>
+
+            <div class="mt-8 p-5 bg-yellow-50 border border-yellow-100 rounded-2xl shadow-sm">
+                <h4 class="text-[9px] font-black uppercase text-yellow-800 mb-2 tracking-widest">💡 Dica de UX</h4>
+                <p class="text-[11px] leading-snug text-yellow-700 italic" id="aside-hint">Foque-se em resumos rápidos para a Inês.</p>
+            </div>
+        </aside>
+
+        <section id="main-canvas" class="flex-grow bg-white rounded-3xl shadow-sm border border-stone-200 p-6 md:p-10 min-h-[700px] relative overflow-hidden text-stone-700">
+            
+            <!-- VIEW: PERFIS BIOGRÁFICOS -->
+            <div id="content-bio" class="tab-content active space-y-12 animate-fade-in">
+                <div class="border-b border-stone-100 pb-8">
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+                        <div>
+                            <div class="flex items-center gap-4 mb-2">
+                                <span id="bio-icon" class="text-5xl">🌍</span>
+                                <div>
+                                    <h2 class="text-4xl font-black text-stone-900 tracking-tight" id="bio-persona-name">Carregando...</h2>
+                                    <p class="text-lg text-amber-600 font-bold uppercase tracking-widest" id="bio-segment-title">Segmento</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-stone-50 p-6 rounded-3xl border border-stone-100">
+                            <h4 class="text-[10px] font-black uppercase tracking-widest text-stone-400 mb-3">Persona Snapshot</h4>
+                            <p class="text-sm leading-relaxed italic text-stone-800" id="bio-profile">...</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="p-6 border-l-4 border-yellow-400 bg-white shadow-sm rounded-r-2xl">
+                                <h4 class="text-[10px] font-black uppercase text-stone-400 mb-3 tracking-widest">Motivações</h4>
+                                <ul class="text-xs space-y-2 font-medium text-stone-700" id="bio-motivations-list"></ul>
+                            </div>
+                            <div class="p-6 border-l-4 border-stone-900 bg-white shadow-sm rounded-r-2xl">
+                                <h4 class="text-[10px] font-black uppercase text-stone-400 mb-3 tracking-widest">Objetivos</h4>
+                                <ul class="text-xs space-y-2 font-medium text-stone-700" id="bio-objectives-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-stone-900 text-white p-6 rounded-3xl shadow-xl flex flex-col justify-between">
+                        <div>
+                            <h4 class="text-[10px] font-black uppercase tracking-widest text-yellow-400 mb-4">Matriz de Competências</h4>
+                            <table class="w-full text-[10px]">
+                                <tbody class="divide-y divide-white/10" id="competency-matrix-body"></tbody>
+                            </table>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-white/10 chart-container">
+                            <canvas id="radarChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 gap-12 mt-12">
+                    <div class="flex flex-col justify-center">
+                        <div class="mt-8 p-5 bg-red-50 border-l-4 border-red-500 rounded-r-xl">
+                            <h5 class="text-[9px] font-black uppercase text-red-500 mb-1 tracking-widest">Barreiras Críticas (Churn)</h5>
+                            <p class="text-xs italic leading-relaxed text-red-900" id="bio-barriers-text">...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-stone-900 text-yellow-400 p-8 rounded-3xl shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div>
+                        <span class="text-[9px] font-black uppercase text-white/50 tracking-widest">Gatilho Final de Conversão</span>
+                        <h4 class="text-2xl font-black uppercase italic tracking-tighter" id="bio-trigger-text">...</h4>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: ESTRATÉGIA (INTACTA) -->
+            <div id="content-strategic" class="tab-content space-y-8 animate-fade-in text-stone-900">
+                <div class="strat-header p-10 rounded-3xl relative overflow-hidden shadow-2xl border-b-8 border-yellow-400">
+                    <div class="strat-number-bg" id="strat-number">1</div>
+                    <h2 class="text-[10px] font-bold uppercase tracking-[0.3em] text-yellow-400 mb-6">Definição do Caderno de Encargos</h2>
+                    <h3 id="strat-segment-name" class="text-4xl font-black mb-8 tracking-tighter">Público Geral</h3>
+                    <p id="strat-definition" class="text-lg text-stone-300 leading-relaxed font-serif max-w-3xl opacity-90">...</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm hover:border-yellow-200 transition-colors">
+                        <div class="flex items-center gap-3 mb-6 text-stone-900">
+                            <div class="bg-stone-900 text-white w-6 h-6 flex items-center justify-center rounded-full text-[10px] font-black italic">!</div>
+                            <h4 class="text-xs font-black uppercase tracking-widest">Missão Estratégica</h4>
+                        </div>
+                        <p id="strat-mission" class="text-sm leading-relaxed italic text-stone-700">...</p>
+                    </div>
+                    <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm">
+                        <div class="flex items-center gap-3 mb-6 text-stone-900">
+                            <div class="bg-stone-900 text-white w-6 h-6 flex items-center justify-center rounded-full text-[10px] font-black italic">✓</div>
+                            <h4 class="text-xs font-black uppercase tracking-widest">Principais Entregáveis</h4>
+                        </div>
+                        <ul id="strat-deliverables" class="text-sm space-y-3 list-disc pl-5 font-medium text-stone-700"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: JORNADAS UX (ATUALIZADA E OTIMIZADA PARA UX DOCUMENT) -->
+            <div id="content-flow" class="tab-content space-y-10 animate-fade-in text-stone-700">
+                <div class="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-stone-100 pb-6 gap-4">
+                    <div>
+                        <h2 class="text-3xl font-black text-stone-900 mb-1 uppercase italic tracking-tighter">Jornada do Utilizador</h2>
+                        <p class="text-stone-500 text-sm mt-1">Mapeamento de experiência, touchpoints e oportunidades UX.</p>
+                    </div>
+                    <div class="bg-black text-yellow-400 px-6 py-3 rounded-2xl shadow-md text-center">
+                        <p class="text-[9px] font-black uppercase tracking-widest">Gatilho de Conversão</p>
+                        <p class="text-sm font-black" id="flow-trigger-goal">Conversão</p>
+                    </div>
+                </div>
+
+                <!-- Fluxo Simplificado -->
+                <div class="bg-stone-50 p-8 rounded-3xl border border-stone-100">
+                    <h4 class="text-xs font-black uppercase tracking-widest mb-6 text-stone-900">Fluxo Simplificado da Jornada</h4>
+                    <div class="flex flex-wrap items-center gap-y-4 gap-x-2" id="flow-steps-visual">
+                        <!-- Injetado via JS -->
+                    </div>
+                </div>
+
+                <!-- Tabela UX Completa -->
+                <div class="overflow-x-auto bg-white border border-stone-200 rounded-2xl shadow-sm">
+                    <table class="w-full text-left border-collapse min-w-[800px]">
+                        <thead>
+                            <tr class="bg-stone-50 text-[9px] font-black uppercase tracking-widest text-stone-500">
+                                <th class="p-4 border-b border-stone-200 w-32">Etapa</th>
+                                <th class="p-4 border-b border-stone-200">Situação & Ações</th>
+                                <th class="p-4 border-b border-stone-200">O que Procura</th>
+                                <th class="p-4 border-b border-stone-200 w-24 text-center">Emoção</th>
+                                <th class="p-4 border-b border-stone-200">Oportunidade UX</th>
+                            </tr>
+                        </thead>
+                        <tbody class="text-[11px] divide-y divide-stone-100" id="jornadas-table-body">
+                            <!-- Injetado via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Touchpoints -->
+                <div>
+                    <h4 class="text-xs font-black uppercase tracking-widest mb-4 flex items-center gap-2 text-stone-900">
+                        <span>📍</span> Touchpoints Principais no Ecossistema
+                    </h4>
+                    <div class="flex flex-wrap gap-3" id="jornadas-touchpoints">
+                        <!-- Injetado via JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: SITEMAP (RESTAURADA A 100%) -->
+            <div id="content-sitemap" class="tab-content space-y-12 animate-fade-in overflow-y-auto max-h-[85vh] pr-4 text-stone-700">
+                <div class="flex flex-col md:flex-row justify-between items-start gap-6 border-b border-stone-100 pb-6 text-stone-900">
+                    <div>
+                        <h2 class="text-2xl font-black mb-1 uppercase tracking-tighter italic">Arquitetura de Informação Unificada</h2>
+                        <p class="text-stone-500 text-[10px] italic font-medium uppercase tracking-widest">Estrutura WordPress 2026 com tripartido institucional.</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <div class="bg-stone-100 border p-2 px-4 rounded-lg shadow-sm text-[9px] font-black uppercase tracking-tighter">Área Reservada</div>
+                        <div class="bg-stone-100 border p-2 px-4 rounded-lg shadow-sm text-[9px] font-black uppercase tracking-tighter">Loja AI</div>
+                        <div class="bg-stone-100 border p-2 px-4 rounded-lg shadow-sm text-[9px] font-black uppercase tracking-tighter">Revista</div>
+                    </div>
+                </div>
+                <div class="flex flex-col items-center mb-8">
+                    <div class="homepage-hero p-4 px-10 rounded-2xl text-center shadow-xl font-black uppercase italic border-4 border-white">Homepage</div>
+                    <div class="w-px h-8 bg-stone-200"></div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" id="sitemap-grid"></div>
+                <div class="mt-12 bg-stone-900 text-white rounded-3xl p-10 relative overflow-hidden shadow-2xl text-[10px]">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 relative z-10 text-left">
+                        <div class="space-y-6">
+                            <h4 class="text-xs font-black uppercase text-yellow-400 tracking-widest underline decoration-yellow-400/30 underline-offset-8">Conformidade</h4>
+                            <div class="grid grid-cols-1 gap-2 opacity-70 italic">
+                                <span>Política de Privacidade</span><span>Política de Cookies</span><span>Aviso Legal</span><span>Canal Ética</span><span>Termos e Condições</span>
+                            </div>
+                        </div>
+                        <div class="space-y-6 font-bold">
+                            <h4 class="text-xs font-black uppercase text-yellow-400 tracking-widest underline decoration-yellow-400/30 underline-offset-8">Digital</h4>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="p-2 bg-white/10 rounded">Facebook</span><span class="p-2 bg-white/10 rounded">X</span><span class="p-2 bg-white/10 rounded">YouTube</span><span class="p-2 bg-white/10 rounded">Instagram</span><span class="p-2 bg-white/10 rounded text-green-400">WhatsApp</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col items-center md:items-end justify-center">
+                            <div class="bg-yellow-400 text-black p-4 rounded-2xl mb-6 text-center shadow-lg transform rotate-1">
+                                <p class="text-[9px] font-black uppercase mb-1">Apoio a custo zero</p><span class="font-mono text-base font-bold tracking-widest">501 556 122</span>
+                            </div>
+                            <button class="bg-white text-black px-10 py-3 rounded-2xl font-black uppercase tracking-tighter shadow-xl hover:bg-yellow-400 transition-all border-b-4 border-stone-200">Newsletter</button>
+                            <p class="text-[8px] opacity-30 mt-6 uppercase tracking-[0.2em]">© 2026 Amnistia Internacional Portugal</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: INTEGRAÇÕES (RESTAURADA A 100%) -->
+            <div id="content-integrations" class="tab-content space-y-8 animate-fade-in text-stone-900">
+                <div class="border-b border-stone-100 pb-6">
+                    <h2 class="text-3xl font-black text-stone-900 uppercase italic tracking-tighter">Integrações Técnicas & Ecossistema</h2>
+                    <p class="text-stone-500 text-sm mt-1">Conectividade entre o Website, Salesforce CRM e Ferramentas de Performance.</p>
+                </div>
+                <div class="bg-amber-50 border-2 border-amber-200 p-6 rounded-3xl flex flex-col md:flex-row items-center gap-6 shadow-sm">
+                    <div class="bg-amber-500 text-white integration-icon flex-shrink-0">€</div>
+                    <div>
+                        <h4 class="text-xs font-black uppercase tracking-widest text-amber-800 mb-2 text-left">Fluxo de Donativos e Segurança</h4>
+                        <p class="text-sm leading-relaxed text-amber-900 text-left">O website não processará diretamente os pagamentos. A página "Faz um Donativo" apresentará as várias modalidades de pagamento (MBWay, PayPal, etc.), mas os pagamentos e donativos continuarão a ser <strong>mediados e processados através da ligação direta ao sistema Salesforce</strong>, garantindo assim a segurança e a continuidade operacional.</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm hover:border-blue-200 transition-colors flex flex-col">
+                        <div class="flex items-center gap-4 mb-6"><div class="bg-blue-600 text-white integration-icon">S</div><h4 class="text-sm font-black uppercase tracking-widest text-blue-900">1. Integração Central Salesforce (CRM)</h4></div>
+                        <p class="text-xs text-stone-600 mb-6 italic">O Salesforce será a "fonte de verdade" do projeto, gerindo toda a informação de utilizadores e ativismo através de um modelo API-first.</p>
+                        <div class="space-y-4 mb-6 text-xs text-stone-600 leading-relaxed">
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                <span class="text-[9px] font-black uppercase text-blue-600">Formulários e Captação</span>
+                                <p class="text-xs mt-1 leading-relaxed">Assinaturas de petições e leads serão mapeados do WordPress para o Salesforce. Inclui sistemas de tratamento de erros e reenvio de dados.</p>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                <span class="text-[9px] font-black uppercase text-blue-600">Sincronização da Área Pessoal</span>
+                                <p class="text-xs mt-1 leading-relaxed">O website guarda apenas o ID/token. O histórico de ativismo é sincronizado em tempo real a partir do CRM.</p>
+                            </div>
+                        </div>
+                        <div class="mt-auto p-6 bg-blue-50 border border-blue-100 rounded-2xl text-[11px] space-y-2">
+                            <h5 class="font-black uppercase text-blue-800 mb-3 flex items-center gap-2 tracking-widest">📋 Necessidades do Cliente</h5>
+                            <p class="flex items-start gap-2"><span class="text-blue-500">→</span> <span><strong>Credenciais de API:</strong> Client ID, Secret e Token.</span></p>
+                            <p class="flex items-start gap-2"><span class="text-blue-500">→</span> <span><strong>Dicionário de Dados:</strong> Mapeamento atual de campos no Salesforce.</span></p>
+                            <p class="flex items-start gap-2"><span class="text-blue-500">→</span> <span><strong>Ambiente Sandbox:</strong> Acesso a um ambiente de testes.</span></p>
+                        </div>
+                    </div>
+                    <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm hover:border-green-200 transition-colors flex flex-col">
+                        <div class="flex items-center gap-4 mb-6"><div class="bg-green-600 text-white integration-icon">T</div><h4 class="text-sm font-black uppercase tracking-widest text-green-900">2. Tracking e Analytics</h4></div>
+                        <p class="text-xs text-stone-600 mb-6 italic">Desenvolvimento de uma data layer estruturada para alimentar de forma nativa as plataformas de performance.</p>
+                        <div class="space-y-4 mb-6 text-xs text-stone-600 leading-relaxed">
+                            <div class="flex items-start gap-4 p-3 bg-stone-50 rounded-xl border border-stone-100">
+                                <div class="w-8 h-8 rounded bg-white border flex items-center justify-center text-[10px] font-bold">GA</div>
+                                <div><p class="text-xs font-black">Google Analytics & Matomo</p><p class="text-[10px] text-stone-600">Recolha de dados estatísticos e navegação.</p></div>
+                            </div>
+                            <div class="flex items-start gap-4 p-3 bg-stone-50 rounded-xl border border-stone-100">
+                                <div class="w-8 h-8 rounded bg-white border flex items-center justify-center text-[10px] font-bold">GTM</div>
+                                <div><p class="text-xs font-black">Google Tag Manager</p><p class="text-[10px] text-stone-600">Gestão centralizada de eventos e scripts.</p></div>
+                            </div>
+                            <div class="flex items-start gap-4 p-3 bg-stone-50/50 rounded-xl border border-dashed border-stone-200">
+                                <div class="w-8 h-8 rounded bg-white border flex items-center justify-center text-[10px] font-bold opacity-50">MC</div>
+                                <div><p class="text-xs font-black opacity-50">Microsoft Clarity (Opcional)</p><p class="text-[10px] text-stone-600 italic">Mapas de calor e gravações.</p></div>
+                            </div>
+                        </div>
+                        <div class="mt-auto p-6 bg-green-50 border border-green-100 rounded-2xl text-[11px] space-y-2">
+                            <h5 class="font-black uppercase text-green-800 mb-3 flex items-center gap-2 tracking-widest">📊 Acessos e Configurações</h5>
+                            <p class="flex items-start gap-2"><span class="text-green-500">→</span> <span><strong>Acesso Administrador:</strong> Permissões no GTM e GA4.</span></p>
+                            <p class="flex items-start gap-2"><span class="text-green-500">→</span> <span><strong>Measurement IDs:</strong> IDs de medição e URL do Matomo.</span></p>
+                            <p class="flex items-start gap-2"><span class="text-green-500">→</span> <span><strong>Conversões:</strong> Definição de eventos críticos.</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: ÁREA PESSOAL (RESTAURADA A 100%) -->
+            <div id="content-personal" class="tab-content animate-fade-in text-stone-900">
+                <div class="flex flex-col lg:flex-row gap-8">
+                    <aside class="w-full lg:w-64 flex-shrink-0 space-y-2 border-r border-stone-100 pr-6">
+                        <p class="text-[9px] font-black uppercase tracking-[0.2em] text-stone-400 mb-4">Gestão de Conta</p>
+                        <button class="w-full text-left px-4 py-3 bg-yellow-400 text-stone-900 font-black rounded-xl text-xs flex items-center gap-3 shadow-sm"><span class="text-lg">⊞</span> Dashboard</button>
+                        <button class="w-full text-left px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all rounded-xl text-xs flex items-center gap-3"><span class="text-lg opacity-50">👤</span> Os Meus Dados</button>
+                        <button class="w-full text-left px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all rounded-xl text-xs flex items-center gap-3"><span class="text-lg opacity-50">📜</span> O Meu Histórico</button>
+                        <button class="w-full text-left px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all rounded-xl text-xs flex items-center gap-3"><span class="text-lg opacity-50">🔖</span> Conteúdos Guardados</button>
+                        <button class="w-full text-left px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all rounded-xl text-xs flex items-center gap-3"><span class="text-lg opacity-50">🧾</span> Recibos e Quotas</button>
+                        <button class="w-full text-left px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all rounded-xl text-xs flex items-center gap-3"><span class="text-lg opacity-50">🎓</span> Academia Amnistia</button>
+                        <button class="w-full text-left px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all rounded-xl text-xs flex items-center gap-3"><span class="text-lg opacity-50">✊</span> Rede MAPA</button>
+                        <button class="w-full text-left px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all rounded-xl text-xs flex items-center gap-3"><span class="text-lg opacity-50">⚙</span> Preferências</button>
+                        <button class="w-full text-left px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all rounded-xl text-xs flex items-center gap-3 border-t border-stone-50 pt-4"><span class="text-lg opacity-50">🛡</span> Segurança (2FA)</button>
+                        <button class="w-full text-left px-4 py-3 text-red-500 hover:bg-red-50 transition-all rounded-xl text-xs font-black flex items-center gap-3 mt-6"><span class="text-lg">🚪</span> Terminar Sessão</button>
+                    </aside>
+                    <div class="flex-grow space-y-8">
+                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-stone-100 pb-6">
+                            <div>
+                                <h2 class="text-3xl font-black italic tracking-tighter">Olá, Ricardo 👋</h2>
+                                <p class="text-stone-500 text-xs font-medium">É bom ter-te de volta à linha da frente dos Direitos Humanos.</p>
+                            </div>
+                            <div class="flex items-center gap-2 bg-blue-50 border border-blue-100 px-4 py-2 rounded-full shadow-sm">
+                                <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
+                                <span class="text-[9px] font-black text-blue-700 uppercase tracking-widest">Dados sincronizados via Salesforce</span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="md:col-span-3 grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white border-2 border-stone-100 p-6 rounded-2xl shadow-sm hover:border-yellow-200 transition-all"><p class="text-[9px] font-black uppercase text-stone-400 mb-1 tracking-widest">Petições Assinadas</p><p class="text-3xl font-black">12</p></div>
+                                <div class="bg-white border-2 border-stone-100 p-6 rounded-2xl shadow-sm hover:border-yellow-200 transition-all"><p class="text-[9px] font-black uppercase text-stone-400 mb-1 tracking-widest">Donativos Efetuados</p><p class="text-3xl font-black">3</p></div>
+                                <div class="bg-white border-2 border-stone-100 p-6 rounded-2xl shadow-sm hover:border-yellow-200 transition-all"><p class="text-[9px] font-black uppercase text-stone-400 mb-1 tracking-widest">Campanhas Seguidas</p><p class="text-3xl font-black">4</p></div>
+                            </div>
+                            <div class="md:col-span-2 bg-stone-50 p-6 rounded-3xl border border-stone-100">
+                                <h4 class="text-xs font-black uppercase tracking-widest mb-6 flex items-center gap-2"><span class="text-lg">🕒</span> Atividade Recente</h4>
+                                <div class="space-y-4">
+                                    <div class="bg-white p-4 rounded-xl border border-stone-100 flex justify-between items-center shadow-sm"><div class="flex flex-col"><span class="text-[10px] font-black text-amber-600 uppercase">Petição</span><p class="text-xs font-bold text-stone-800">Assinaste "Pelo fim da Pena de Morte no Irão"</p></div><span class="text-[10px] text-stone-400 font-mono">14 Mar 2026</span></div>
+                                    <div class="bg-white p-4 rounded-xl border border-stone-100 flex justify-between items-center shadow-sm"><div class="flex flex-col"><span class="text-[10px] font-black text-green-600 uppercase">Donativo</span><p class="text-xs font-bold text-stone-800">Fizeste donativo para "Refugiados Ucrânia"</p></div><span class="text-[10px] text-stone-400 font-mono">02 Fev 2026</span></div>
+                                    <div class="bg-white p-4 rounded-xl border border-stone-100 flex justify-between items-center shadow-sm"><div class="flex flex-col"><span class="text-[10px] font-black text-blue-600 uppercase">Evento</span><p class="text-xs font-bold text-stone-800">Inscreveste-te na "Maratona de Cartas 2025"</p></div><span class="text-[10px] text-stone-400 font-mono">20 Dez 2025</span></div>
+                                </div>
+                            </div>
+                            <div class="flex flex-col gap-6">
+                                <div class="bg-white p-6 rounded-3xl border-2 border-stone-100 flex flex-col shadow-sm">
+                                    <h4 class="text-xs font-black uppercase tracking-widest mb-6 flex items-center gap-2"><span class="text-lg">🔖</span> Guardados</h4>
+                                    <div class="space-y-5 flex-grow">
+                                        <div class="block group"><p class="text-xs font-bold leading-snug">Relatório Anual: O Estado dos DH 2025</p><div class="flex items-center gap-2 mt-2"><span class="text-[8px] bg-stone-100 px-2 py-0.5 rounded font-black uppercase">PDF</span><span class="text-[8px] text-stone-400 uppercase">4.2 MB</span></div></div>
+                                        <div class="block group border-t border-stone-50 pt-4"><p class="text-xs font-bold leading-snug">Artigo: Como falar de Clima com céticos</p><div class="flex items-center gap-2 mt-2"><span class="text-[8px] bg-stone-100 px-2 py-0.5 rounded font-black uppercase">Leitura</span><span class="text-[8px] text-stone-400 uppercase">5 min</span></div></div>
+                                    </div>
+                                </div>
+                                <div class="bg-white p-6 rounded-3xl border-2 border-stone-100 flex flex-col shadow-sm">
+                                    <h4 class="text-xs font-black uppercase tracking-widest mb-6 flex items-center gap-2"><span class="text-lg">🎓</span> A Minha Formação</h4>
+                                    <div class="space-y-4 flex-grow">
+                                        <div class="block">
+                                            <p class="text-xs font-bold leading-snug">Curso: Segurança Digital</p>
+                                            <div class="w-full bg-stone-100 rounded-full h-1.5 mt-4">
+                                                <div class="bg-amber-500 h-1.5 rounded-full" style="width: 60%"></div>
+                                            </div>
+                                            <div class="flex justify-between items-center mt-2">
+                                                <span class="text-[9px] font-bold text-stone-400 uppercase tracking-widest">60% Concluído</span>
+                                                <button class="text-[9px] font-black text-amber-600 uppercase hover:underline">Continuar →</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="md:col-span-3 bg-stone-900 text-white p-10 rounded-[2.5rem] relative overflow-hidden mt-4 shadow-2xl">
+                                <div class="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                                    <div>
+                                        <h4 class="text-xs font-black uppercase tracking-[0.2em] text-yellow-400 mb-3">Privacidade & Preferências</h4>
+                                        <p class="text-sm text-stone-400 leading-relaxed">Controla como comunicamos contigo e personaliza a tua experiência no site com base nos temas que mais te motivam.</p>
+                                        <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                            <div class="flex items-center justify-between gap-3 bg-white/5 p-4 rounded-2xl border border-white/10"><span class="text-xs font-bold">Newsletter Semanal</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+                                            <div class="flex items-center justify-between gap-3 bg-white/5 p-4 rounded-2xl border border-white/10"><span class="text-xs font-bold">Ações Urgentes (SMS)</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+                                            <div class="flex items-center justify-between gap-3 bg-white/5 p-4 rounded-2xl border border-white/10"><span class="text-xs font-bold">Revista "AGIR"</span><label class="switch"><input type="checkbox" checked><span class="slider"></span></label></div>
+                                        </div>
+                                    </div>
+                                    <div class="space-y-6">
+                                        <p class="text-[10px] font-black uppercase text-yellow-400/50 tracking-widest">Os Meus Temas de Interesse</p>
+                                        <div class="flex flex-wrap gap-2">
+                                            <span class="px-4 py-2 bg-yellow-400 text-black rounded-full text-[10px] font-black uppercase">Pena de Morte</span>
+                                            <span class="px-4 py-2 bg-white/10 text-white rounded-full text-[10px] font-black uppercase border border-white/20 hover:bg-white/20">Alterações Climáticas</span>
+                                            <span class="px-4 py-2 bg-yellow-400 text-black rounded-full text-[10px] font-black uppercase">Refugiados</span>
+                                            <span class="px-4 py-2 bg-white/10 text-white rounded-full text-[10px] font-black uppercase border border-white/20 hover:bg-white/20">Igualdade de Género</span>
+                                        </div>
+                                        <p class="text-[9px] text-stone-500 italic">As tuas escolhas personalizam os destaques que vês na Homepage.</p>
+                                    </div>
+                                </div>
+                                <div class="absolute -bottom-20 -right-20 w-64 h-64 bg-yellow-400/10 rounded-full blur-[80px]"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: REQUISITOS (RESTAURADA A 100%) -->
+            <div id="content-requirements" class="tab-content space-y-8 animate-fade-in text-stone-900">
+                <div class="border-b border-stone-100 pb-6">
+                    <h2 class="text-3xl font-black text-stone-900 uppercase italic tracking-tighter">Caderno de Requisitos 2026</h2>
+                    <p class="text-stone-500 text-sm mt-1">Definições funcionais, arquitetura de plataforma e métricas exigidas.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="req-card">
+                        <span class="req-badge">Funcional</span>
+                        <h4 class="text-sm font-black mt-4 mb-2">1. Requisitos Funcionais</h4>
+                        <ul class="text-[11px] text-stone-600 space-y-2 list-disc pl-4">
+                            <li><strong>Gestor de Formulários:</strong> API-first, mapeamento Salesforce, logs e retries.</li>
+                            <li><strong>Área Pessoal:</strong> Painel autenticado (2FA) com histórico centralizado via ID/Token.</li>
+                            <li><strong>Pesquisa Inteligente:</strong> Search-as-you-type, suporte sinónimos e boosting editorial.</li>
+                            <li><strong>Multilíngua:</strong> Suporte nativo PT/EN com seletor persistente.</li>
+                        </ul>
+                    </div>
+                    <div class="req-card">
+                        <span class="req-badge">Plataforma</span>
+                        <h4 class="text-sm font-black mt-4 mb-2">2. Arquitetura</h4>
+                        <ul class="text-[11px] text-stone-600 space-y-2 list-disc pl-4">
+                            <li><strong>WordPress:</strong> Implementação base com autonomia total editorial.</li>
+                            <li><strong>Design System:</strong> Estrutura modular e biblioteca de componentes reutilizáveis.</li>
+                        </ul>
+                    </div>
+                    <div class="req-card bg-stone-900 text-white border-none">
+                        <span class="req-badge !bg-white">Não Funcional</span>
+                        <h4 class="text-sm font-black mt-4 mb-4 text-yellow-400 italic">4. Métricas de Performance</h4>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div><p class="text-[8px] uppercase tracking-widest text-stone-400">Acessibilidade</p><p class="metric-value !text-white italic">85 / 7.5</p></div>
+                            <div><p class="text-[8px] uppercase tracking-widest text-stone-400">PageSpeed (M)</p><p class="metric-value !text-white italic">> 60</p></div>
+                            <div><p class="text-[8px] uppercase tracking-widest text-stone-400">Ecograder</p><p class="metric-value !text-white italic">> 70</p></div>
+                            <div><p class="text-[8px] uppercase tracking-widest text-stone-400">Carbon Rate</p><p class="metric-value !text-white italic">"C"</p></div>
+                        </div>
+                    </div>
+                    <div class="req-card">
+                        <span class="req-badge">Segurança</span>
+                        <h4 class="text-sm font-black mt-4 mb-2">5. Infraestrutura</h4>
+                        <ul class="text-[11px] text-stone-600 space-y-2 list-disc pl-4">
+                            <li><strong>Disponibilidade:</strong> Uptime ≥ 99.9% | 15Gb Espaço.</li>
+                            <li><strong>Backups:</strong> Diários com retenção de 10 dias.</li>
+                            <li><strong>Defesa:</strong> Cloudflare DDoS, Firewall e Let's Encrypt SSL.</li>
+                        </ul>
+                    </div>
+                    <div class="req-card border-dashed border-stone-300 md:col-span-2">
+                        <span class="req-badge !bg-stone-200 !text-stone-600">Escalabilidade</span>
+                        <h4 class="text-sm font-black mt-4 mb-2 italic uppercase">6. Módulos Futuros</h4>
+                        <p class="text-[11px] text-stone-500 mb-4">A base tecnológica tem o requisito de estar preparada para receber progressivamente:</p>
+                        <div class="flex flex-wrap gap-1.5 mt-2">
+                            <span class="text-[9px] px-2 py-0.5 bg-stone-100 rounded">Loja Online</span>
+                            <span class="text-[9px] px-2 py-0.5 bg-stone-100 rounded">Transparência</span>
+                            <span class="text-[9px] px-2 py-0.5 bg-stone-100 rounded">Revista Humanista</span>
+                            <span class="text-[9px] px-2 py-0.5 bg-stone-100 rounded">Gamificação</span>
+                            <span class="text-[9px] px-2 py-0.5 bg-stone-100 rounded">PWA / App</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- VIEW: RELAÇÕES E FLUXOS DE NAVEGAÇÃO -->
+            <div id="content-relations" class="tab-content space-y-8 animate-fade-in text-stone-900">
+                <div class="border-b border-stone-100 pb-6">
+                    <h2 class="text-3xl font-black text-stone-900 uppercase italic tracking-tighter">Relações e Fluxos de Navegação</h2>
+                    <p class="text-stone-500 text-sm mt-1">Proposta de cruzamento de páginas e interligação de conteúdos para maximizar a conversão transversal no ecossistema.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- Eixo 1 -->
+                    <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm hover:border-yellow-200 transition-colors flex flex-col">
+                        <div class="flex items-center gap-4 mb-6"><div class="bg-stone-900 text-yellow-400 integration-icon flex-shrink-0">1</div><h4 class="text-sm font-black uppercase tracking-widest text-stone-900">O Detalhe de 'Temáticas'</h4></div>
+                        <p class="text-xs text-stone-500 mb-6 italic">A página de Detalhe Temática (em Compreende-nos) deve ser o grande "hub" agregador do site.</p>
+                        <div class="space-y-4">
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                <span class="text-[9px] font-black uppercase text-blue-500 block mb-1">Para se manter atualizado</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Bloco com as últimas <strong>Notícias</strong> e artigos do <strong>Blog Vozes Ativistas</strong> com a tag dessa temática (Informa-te).</p>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                <span class="text-[9px] font-black uppercase text-amber-600 block mb-1">Para agir imediatamente</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Bloco com <strong>Ações Urgentes</strong>, <strong>Petições</strong> e <strong>Campanhas ativas</strong> ligadas ao tema (Atua).</p>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                <span class="text-[9px] font-black uppercase text-stone-500 block mb-1">Para aprofundar</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Links para <strong>Relatórios Temáticos</strong> específicos (Compreende-nos).</p>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                <span class="text-[9px] font-black uppercase text-green-600 block mb-1">Para ver impacto</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Bloco de <strong>Vitórias</strong> passadas relacionadas com o tema (mostra que a ação funciona).</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Eixo 2 -->
+                    <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm hover:border-yellow-200 transition-colors flex flex-col">
+                        <div class="flex items-center gap-4 mb-6"><div class="bg-amber-500 text-stone-900 integration-icon flex-shrink-0">2</div><h4 class="text-sm font-black uppercase tracking-widest text-stone-900">O Eixo da Ação</h4></div>
+                        <p class="text-xs text-stone-500 mb-6 italic">Detalhe de "Petições", "Ações Urgentes" e "Campanhas" (Área Atua).</p>
+                        <div class="space-y-4 flex-grow flex flex-col">
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-1">Contexto e Educação</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Link de <strong>"Saber mais"</strong> a apontar para o Detalhe da Temática ou para os Direitos Humanos em causa (Compreende-nos).</p>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100 border-l-4 border-l-red-500">
+                                <span class="text-[9px] font-black uppercase text-red-600 block mb-1">Urgência</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Mostrar uma <strong>Notícia recente</strong> que justifique a necessidade imediata daquela ação.</p>
+                            </div>
+                            <div class="bg-stone-900 text-white p-4 rounded-xl border border-stone-800 shadow-md mt-auto">
+                                <span class="text-[9px] font-black uppercase text-yellow-400 block mb-1">Próximo Passo (Pós-Ação)</span>
+                                <p class="text-xs font-bold leading-snug">Após assinar (Thank You Page), sugerir <strong>Doar (Global)</strong>, <strong>Tornar-me Membro</strong> ou participar num <strong>Evento</strong>.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Eixo 3 -->
+                    <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm hover:border-yellow-200 transition-colors flex flex-col">
+                        <div class="flex items-center gap-4 mb-6"><div class="bg-blue-600 text-white integration-icon flex-shrink-0">3</div><h4 class="text-sm font-black uppercase tracking-widest text-stone-900">O Eixo da Informação</h4></div>
+                        <p class="text-xs text-stone-500 mb-6 italic">Detalhe de "Notícias", "Vitórias" e "Blog" (Área Informa-te).</p>
+                        <div class="space-y-4">
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100 border-l-4 border-l-blue-500">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-1">No final de Notícia/Blog</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Ter sempre uma <strong>Call to Action (CTA)</strong> para uma Petição ou Ação Urgente relacionada (Atua).</p>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100 border-l-4 border-l-green-500">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-1">No final de uma Vitória</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Sugerir <strong>Doar (Global)</strong> ou <strong>Tornar-me Membro</strong> ("Ajuda-nos a conseguir mais vitórias como esta").</p>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100 border-l-4 border-l-stone-900">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-1">Navegação Transversal</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Todas as peças devem ter <strong>tags clicáveis</strong> que levem de volta à página de Detalhe Temática.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Eixo 4 -->
+                    <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm hover:border-yellow-200 transition-colors flex flex-col">
+                        <div class="flex items-center gap-4 mb-6"><div class="bg-stone-200 text-stone-900 integration-icon flex-shrink-0">4</div><h4 class="text-sm font-black uppercase tracking-widest text-stone-900">Eixo Institucional</h4></div>
+                        <p class="text-xs text-stone-500 mb-6 italic">"Sobre Nós" e "Transparência" (Conhece-nos).</p>
+                        <div class="space-y-4">
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-1">Na página O Que Fazemos</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Ligar diretamente aos <strong>Direitos Humanos</strong> (Compreende-nos) e às <strong>Campanhas âncora</strong> (Atua).</p>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-1">Nas páginas de Transparência</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Mostrar blocos com Relatórios Anuais e link direto para <strong>Doar (Global)</strong> e <strong>Consignação IRS</strong>.</p>
+                            </div>
+                            <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                <span class="text-[9px] font-black uppercase text-stone-400 block mb-1">Na página Pessoas / Vozes</span>
+                                <p class="text-xs font-bold text-stone-800 leading-snug">Ligar ao <strong>Blog Vozes Ativistas</strong> para dar rosto e voz ao trabalho de bastidores.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Banner Regra de Ouro -->
+                    <div class="md:col-span-2 bg-stone-900 text-white p-8 rounded-3xl shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
+                        <div class="relative z-10 w-full">
+                            <h4 class="text-[10px] font-black uppercase tracking-[0.2em] text-yellow-400 mb-3">Resumo da Regra de Ouro para a Navegação</h4>
+                            <p class="text-xl font-black italic tracking-tighter mb-6">Nenhuma página "folha" (detalhe) deve ser um beco sem saída.</p>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white/5 p-4 rounded-2xl border border-white/10 flex flex-col gap-2">
+                                    <span class="text-[10px] font-black text-stone-400 uppercase">Se estou a ler (Informa-te)</span>
+                                    <div class="text-sm font-bold flex items-center gap-2">
+                                        <span class="text-yellow-400">→</span> Quero Agir <span class="bg-white text-stone-900 px-2 py-0.5 rounded text-[9px] uppercase tracking-widest ml-auto">Atua</span>
+                                    </div>
+                                </div>
+                                <div class="bg-white/5 p-4 rounded-2xl border border-white/10 flex flex-col gap-2">
+                                    <span class="text-[10px] font-black text-stone-400 uppercase">Se quero agir (Atua)</span>
+                                    <div class="text-sm font-bold flex items-center gap-2">
+                                        <span class="text-yellow-400">→</span> Quero Contexto <span class="bg-white text-stone-900 px-2 py-0.5 rounded text-[9px] uppercase tracking-widest ml-auto">Compreende</span>
+                                    </div>
+                                </div>
+                                <div class="bg-white/5 p-4 rounded-2xl border border-white/10 flex flex-col gap-2">
+                                    <span class="text-[10px] font-black text-stone-400 uppercase">Se duvido / apoio estrutural</span>
+                                    <div class="text-sm font-bold flex items-center gap-2">
+                                        <span class="text-yellow-400">→</span> Quero Confiança <span class="bg-white text-stone-900 px-2 py-0.5 rounded text-[9px] uppercase tracking-widest ml-auto">Conhece</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <script>
+        // --- GLOBAL STATE ---
+        let currentPersonaId = 'p1';
+        let radarChartInstance = null;
+
+        // --- FULLY STRUCTURED DATA MODELS (Inês, Ricardo, Marta e Ana) ---
+        const personaData = {
+            p1: { 
+                id: 1, segment: "Público em Geral", name: "Inês, 28 anos", icon: "🌍",
+                profile: "Jovem profissional urbana, procura validar notícias confiáveis. Exposta a muitas fake news nas redes sociais, procura fontes credíveis.",
+                motivations: ["Compreender conflitos", "Validar factos", "Partilha segura nas redes sociais"],
+                objectives: ["Fact-checking rápido", "Vídeos de contexto", "Artigos simples"],
+                barriers: "Linguagem burocrática, sites pesados, falta de resposta direta sobre a atualidade.",
+                trigger: "Subscrição de newsletter",
+                hint: "Foque-se em headlines fortes e resumos rápidos para reter a Inês.",
+                stratDefinition: "Cidadãos interessados em compreender temas sociais, políticos ou humanitários de forma rápida e clara.",
+                stratMission: "Transformar a curiosidade mediática num interesse sustentado através da educação visual.",
+                stratDeliverables: ["Infografias de contexto", "Glossário de DH", "Resumos de atualidade", "Newsletter curada"],
+                chart: [4, 2, 3, 3, 5],
+                touchpoints: ["Google (SEO Técnico)", "Redes Sociais", "Artigos Informativos", "Vídeos Explicativos", "Newsletter Temática"],
+                simplifiedFlow: ["Descobre notícia", "Pesquisa", "Resume e valida", "Explora contexto", "Partilha", "Newsletter"],
+                matrix: [
+                    {k: "Literacia Digital", v: "Elevada", i: "Navegação fluida, impaciente com atritos."}, 
+                    {k: "Conhecimento Político", v: "Médio", i: "Precisa de contextualização rápida."},
+                    {k: "Fact-checking", v: "Médio", i: "Procura marcas com autoridade."}, 
+                    {k: "Tempo Disponível", v: "Muito Baixo", i: "Conteúdo consumível em < 2 min."},
+                    {k: "Tendência Partilha", v: "Elevada", i: "Necessita de features sociais integradas."}
+                ],
+                journey: [
+                    {s:"1. Descoberta", st:"Vê notícia viral.", a:"Pesquisa no Google.", p:"Veracidade e fonte segura.", e:"Preocupada", o:"SEO otimizado para temas 'Hot'."},
+                    {s:"2. Entrada", st:"Aterra no site da Amnistia.", a:"Verifica autoridade.", p:"Identidade visual de confiança.", e:"Expectante", o:"Load rápido (< 2s) e selos da org."},
+                    {s:"3. Leitura", st:"Procura resumo.", a:"Scaneia o texto.", p:"Bullets e destaques.", e:"Focada", o:"Resumo TL;DR logo no topo."},
+                    {s:"4. Validação", st:"Verifica os factos.", a:"Clica em relatórios.", p:"Dados oficiais.", e:"Segura", o:"Links bem visíveis."},
+                    {s:"5. Exploração", st:"Quer mais detalhe.", a:"Vê vídeo curto.", p:"Conteúdo leve.", e:"Esclarecida", o:"Vídeos embedded nativamente."},
+                    {s:"6. Partilha", st:"Espalha a verdade.", a:"Partilha e subscreve.", p:"Subscrição simples.", e:"Satisfeita", o:"Formulário CTA de 1-click."}
+                ]
+            },
+            p2: { 
+                id: 2, segment: "Comunidade Amnistia", name: "Ricardo, 45 anos", icon: "✊",
+                profile: "Membro ativo e dador regular, quer eficiência máxima na sua participação cívica.",
+                motivations: ["Impacto real", "Eficiência cívica", "Apoio direto"],
+                objectives: ["Assinar petições 1-click", "Gerir quotas", "Consultar vitórias"],
+                barriers: "Processos lentos, transparência insuficiente, área de membro pouco clara.",
+                trigger: "Donativo / Login",
+                hint: "O Ricardo valoriza a velocidade. Minimize os passos para ação.",
+                stratDefinition: "O núcleo ativo de membros e doadores. Utilizam a plataforma para participação e gestão.",
+                stratMission: "Facilitar a ação de alta velocidade e fortalecer a fidelização com prova de impacto.",
+                stratDeliverables: ["Dashboard Pessoal", "Assinatura 1-Click", "Hub de Vitórias", "Donativo Expresso"],
+                chart: [3, 4, 3, 5, 2],
+                touchpoints: ["Email de Campanhas", "Página de Petições", "Área de Membro", "Página de Vitórias da Org", "Dashboard de Doações", "Notificações SMS"],
+                simplifiedFlow: ["Recebe alerta", "Entra na petição", "Participa", "Consulta impacto", "Gestão de contribuições", "Donativo"],
+                matrix: [
+                    {k:"Literacia digital", v:"Média", i:"Requer interfaces limpas, sem abstrações."}, 
+                    {k:"Envolvimento Causa", v:"Máximo", i:"Apresentar histórico das suas ações."},
+                    {k:"Confiança AIP", v:"Muito Alta", i:"Comunicação baseada na urgência."},
+                    {k:"Tempo Disponível", v:"Médio", i:"Participações ativas que exijam < 10s."},
+                    {k:"Freq. Participação", v:"Alta", i:"Otimizar com Auto-fill."}
+                ],
+                journey: [
+                    {s:"1. Receção de alerta", st:"Notificação de campanha.", a:"Clica no CTA central.", p:"Compreensão da urgência.", e:"Motivado", o:"Design de email com 'Assinar Já'."},
+                    {s:"2. Entrada no site", st:"Acesso à petição.", a:"Faz skimming descritivo.", p:"Página direcionada ao objetivo.", e:"Focado", o:"Formulário always-visible."},
+                    {s:"3. Participação", st:"Submissão de dados.", a:"Assina com um clique.", p:"Processo pré-preenchido.", e:"Envolvido", o:"Integração Salesforce CRM."},
+                    {s:"4. Exploração", st:"Procura impacto.", a:"Verifica página de vitórias.", p:"O impacto da campanha.", e:"Satisfeito", o:"Mostrar barra de progresso."},
+                    {s:"5. Gestão", st:"Acede à Área de Membro.", a:"Gere quotas ou donativo.", p:"Segurança e histórico.", e:"Comprometido", o:"Dashboard self-service centralizado."}
+                ]
+            },
+            p3: { 
+                id: 3, segment: "Academia & Media", name: "Marta, 52 anos", icon: "📊",
+                profile: "Jornalista ou académica, elevada literacia, usa o site como fonte técnica e jurídica.",
+                motivations: ["Dados rigorosos", "Enquadramento jurídico"],
+                objectives: ["Download de relatórios", "Citar estatísticas", "Consultar documentação oficial"],
+                barriers: "Busca interna fraca, filtros insuficientes, navegação complexa.",
+                trigger: "Download de relatório",
+                hint: "A Marta valoriza a precisão. Otimize a busca e os filtros por ano/tema.",
+                stratDefinition: "Opinion Makers que procuram um repositório técnico e fiável.",
+                stratMission: "Afirmar a autoridade técnica inquestionável da Amnistia Internacional.",
+                stratDeliverables: ["Arquivo PDF Otimizado", "Índices Sticky de Navegação", "Download Center", "Filtros Avançados"],
+                chart: [5, 1, 5, 2, 1],
+                touchpoints: ["Google Académico", "Página de Relatórios", "Publicações Amnistia", "Base de Dados de Investigações", "PDF dos Relatórios", "Secções Temáticas"],
+                simplifiedFlow: ["Identifica necessidade", "Pesquisa", "Explora relatório", "Valida dados", "Download"],
+                matrix: [
+                    {k:"Literacia Informacional", v:"Muito Elevada", i:"Exige arquitetura lógica e metadados."}, 
+                    {k:"Busca Técnica", v:"Elevada", i:"Search tem de suportar operadores e filtros."},
+                    {k:"Uso Mobile", v:"Baixo", i:"Design focado em desktop."},
+                    {k:"Uso Principal", v:"Desktop", i:"Facilitar leitura e uso de citação."},
+                    {k:"Credibilidade", v:"Muito Alta", i:"Carimbos de data e fontes claras."}
+                ],
+                journey: [
+                    {s:"1. Identificação", st:"Precisa de dados para um artigo.", a:"Define palavras-chave técnicas.", p:"Fontes primárias e rigorosas.", e:"Focada", o:"SEO robusto em PDFs."},
+                    {s:"2. Pesquisa", st:"Procura publicações da Amnistia.", a:"Usa pesquisa e filtros.", p:"Filtros precisos.", e:"Analítica", o:"Search-as-you-type e filtros dinâmicos."},
+                    {s:"3. Exploração", st:"Analisa a página do relatório.", a:"Lê Executive Summary.", p:"Relevância e credibilidade.", e:"Exigente", o:"Índices sticky laterais."},
+                    {s:"4. Validação", st:"Confirma estatísticas e fontes.", a:"Cruza dados apresentados.", p:"Contexto inquestionável.", e:"Criteriosa", o:"Blocos de texto 'Copiar Citação'."},
+                    {s:"5. Download", st:"Descarrega o relatório.", a:"Clica no PDF.", p:"Ficheiro estruturado.", e:"Satisfeita", o:"PDFs com metadados corretos e OCR."}
+                ]
+            },
+            p4: { 
+                id: 4, segment: "Vítimas & Apoio", name: "Ana, 34 anos", icon: "🆘",
+                profile: "Vítima ou testemunha de violação de direitos, procura orientação urgente sob stress emocional.",
+                motivations: ["Ajuda prática", "Canais seguros"],
+                objectives: ["Contatos de emergência", "Denúncia segura"],
+                barriers: "Linguagem jurídica inacessível, processos complexos.",
+                trigger: "Submissão de denúncia",
+                hint: "Design orientado a crise: botão 'Quick Exit' e contatos visíveis no topo.",
+                stratDefinition: "Vítimas diretas em contextos de urgência emocional ou vulnerabilidade.",
+                stratMission: "Providenciar uma linha de vida digital segura com encaminhamento prático e imediato.",
+                stratDeliverables: ["Botão Quick Exit", "Guia Plain Language", "Formulário Encriptado", "Contatos Emergência no Topo"],
+                chart: [2, 5, 1, 4, 4],
+                touchpoints: ["Pesquisa Google", "Página de Apoio", "Formulário Seguro", "Contatos de Emergência", "Recursos de DH"],
+                simplifiedFlow: ["Situação de crise", "Procura ajuda", "Página de apoio", "Identificação de recursos", "Submissão de denúncia"],
+                matrix: [
+                    {k:"Urgência", v:"Máxima", i:"Contatos vitais above the fold."}, 
+                    {k:"Stress Emocional", v:"Elevado", i:"Design simples, foco em clareza."},
+                    {k:"Literacia Digital", v:"Variável", i:"Linguagem ultra-simples, botões grandes."},
+                    {k:"Tempo Disponível", v:"Muito Baixo", i:"Processo rápido, sem registo."},
+                    {k:"Segurança", v:"Crítica", i:"Botão Quick Exit."}
+                ],
+                journey: [
+                    {s:"1. Crise", st:"Testemunha uma violação.", a:"Procura ajuda urgente.", p:"Orientação e segurança imediata.", e:"Ansiedade", o:"Linguagem empática nos snippets Google."},
+                    {s:"2. Procura", st:"Chega ao site.", a:"Navega rapidamente.", p:"Canais de apoio.", e:"Medo", o:"Botão de ajuda visível no cabeçalho."},
+                    {s:"3. Página de Apoio", st:"Tenta identificar o que fazer.", a:"Lê instruções rápidas.", p:"Instruções sem jargão jurídico.", e:"Esperança", o:"Estrutura em passos curtos e plain language."},
+                    {s:"4. Recursos", st:"Encontra formulário/contacto.", a:"Verifica se é seguro.", p:"Garantia de anonimato.", e:"Cautelosa", o:"Indicadores de segurança e Sair Rápido."},
+                    {s:"5. Denúncia", st:"Submete a situação.", a:"Preenche ou contacta o canal.", p:"Resposta atempada.", e:"Aliviada", o:"Formulário mínimo necessário e contacto imediato."}
+                ]
+            }
+        };
+
+        // Estrutura hierárquica do Sitemap intacta
+        const sitemapData = [
+            { cat: "1. Informa-te", items: [
+                { name: "Notícias", tag: "LIST", details: ["Detalhe Notícia"] },
+                { name: "Vitórias", tag: "LIST", details: ["Detalhe Vitórias"] },
+                { name: "Blog Vozes Ativistas", tag: "LIST", details: ["Detalhe Vozes"] }
+            ]},
+            { cat: "2. Compreende-nos", items: [
+                { name: "Direitos Humanos", tag: "HUB", details: ["Declaração Universal", "Convenções e tratados"] },
+                { name: "Temáticas", tag: "LIST", details: ["Detalhe Temática"] },
+                { name: "Relatórios anuais", tag: "LIST", details: ["Detalhe Relatório"] },
+                { name: "Relatórios Temáticos", tag: "LIST", details: ["Detalhe Relatório"] },
+                { name: "Pena de Morte", tag: "LIST" }
+            ]},
+            { cat: "3. Atua", items: [
+                { name: "Ações Urgentes", tag: "LIST", details: ["Detalhe Ação"] },
+                { name: "Petições", tag: "LIST", details: ["Detalhe Petição"] },
+                { name: "Campanhas", tag: "LIST", details: ["Detalhe Campanha", "Maratona de Cartas"] },
+                { name: "Consignação IRS", tag: "CAMP", details: ["O que é?", "Como Fazer", "NIF: 501 556 122"] },
+                { name: "Doar (Global)", tag: "PÁG", details: ["Fluxo Checkout"] },
+                { name: "Tornar-me Membro", tag: "PÁG" },
+                { name: "Fazer Denúncia", tag: "PÁG" },
+                { name: "Voluntariado / Grupos", tag: "PÁG" },
+                { name: "Eventos", tag: "LIST", details: ["Detalhe Evento"] }
+            ]},
+            { cat: "4. Conhece-nos", items: [
+                { 
+                    name: "Sobre Nós", tag: "MÃE", 
+                    details: ["O Que Fazemos", "História", "Missão / Valores", "Onde Estamos", "Trabalha Connosco", "Pessoas"],
+                    sub: { "Trabalha Connosco": ["Posições em Aberto", "Porquê AIP"], "Pessoas": ["Detalhe Pessoa"] }
+                },
+                { name: "Estratégia e Impacto", tag: "MÃE", details: ["O nosso impacto", "Estratégia"] },
+                { name: "Transparência e Governação", tag: "MÃE", details: ["Governação", "Finanças", "Relatórios"] },
+                { name: "Formação", tag: "HUB", details: ["Educação DH (EXT)", "Ativismo Jovem (EXT)"] },
+                { name: "Voice to Voice", tag: "PROJ" },
+                { name: "Face to Face", tag: "PROJ" }
+            ]}
+        ];
+
+        // --- CORE LOGIC ---
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('nav button').forEach(b => {
+                b.classList.remove('nav-active'); b.classList.add('nav-inactive');
+            });
+            document.getElementById(`content-${tabId}`).classList.add('active');
+            document.getElementById(`nav-${tabId}`).classList.add('nav-active');
+            document.getElementById(`nav-${tabId}`).classList.remove('nav-inactive');
+
+            const aside = document.getElementById('aside-personas');
+            if (['personal', 'requirements', 'integrations', 'relations'].includes(tabId)) aside.classList.add('hidden');
+            else aside.classList.remove('hidden');
+        }
+
+        function updatePersona(id) {
+            currentPersonaId = id;
+            const data = personaData[id];
+            
+            document.querySelectorAll('.persona-btn').forEach(b => {
+                b.classList.remove('active'); b.classList.add('inactive');
+            });
+            const activeBtn = Array.from(document.querySelectorAll('.persona-btn')).find(b => b.onclick.toString().includes(id));
+            if(activeBtn) activeBtn.classList.add('active');
+
+            // Bio UI Update
+            document.getElementById('bio-icon').innerText = data.icon;
+            document.getElementById('bio-persona-name').innerText = data.name;
+            document.getElementById('bio-segment-title').innerText = data.segment;
+            document.getElementById('bio-profile').innerText = data.profile;
+            document.getElementById('aside-hint').innerText = data.hint || "...";
+            document.getElementById('bio-trigger-text').innerText = data.trigger;
+            document.getElementById('bio-barriers-text').innerText = data.barriers;
+
+            // Arrays UI Update (Lists)
+            document.getElementById('bio-motivations-list').innerHTML = (data.motivations || []).map(m => `<li>• ${m}</li>`).join('');
+            document.getElementById('bio-objectives-list').innerHTML = (data.objectives || []).map(o => `<li>• ${o}</li>`).join('');
+
+            // Strategy UI Update
+            document.getElementById('strat-number').innerText = data.id;
+            document.getElementById('strat-segment-name').innerText = data.segment;
+            document.getElementById('strat-definition').innerText = data.stratDefinition || data.profile;
+            document.getElementById('strat-mission').innerText = data.stratMission || "...";
+            document.getElementById('strat-deliverables').innerHTML = (data.stratDeliverables || []).map(d => `<li>${d}</li>`).join('');
+
+            // Jornadas (Flow) UI Update Integrado
+            const triggerGoal = document.getElementById('flow-trigger-goal');
+            if (triggerGoal) triggerGoal.innerText = data.trigger;
+
+            const flowVisual = document.getElementById('flow-steps-visual');
+            if (flowVisual && data.simplifiedFlow) {
+                flowVisual.innerHTML = data.simplifiedFlow.map((step, i) => `
+                    <div class="flex items-center gap-2">
+                        <div class="bg-stone-900 text-yellow-400 w-5 h-5 rounded-full flex items-center justify-center font-black text-[9px] flex-shrink-0">${i+1}</div>
+                        <span class="text-[10px] font-black uppercase text-stone-700 bg-white px-3 py-1.5 rounded shadow-sm border border-stone-200">${step}</span>
+                        ${i < data.simplifiedFlow.length - 1 ? `<span class="text-stone-300">→</span>` : ''}
+                    </div>
+                `).join('');
+            }
+
+            const jTable = document.getElementById('jornadas-table-body');
+            if (jTable && data.journey) {
+                jTable.innerHTML = data.journey.map(j => `
+                    <tr class="hover:bg-stone-50 transition-colors">
+                        <td class="p-4 font-black text-stone-900 align-top">${j.s}</td>
+                        <td class="p-4 text-stone-500 font-medium align-top leading-relaxed">${j.st}<br><span class="text-stone-800 italic font-bold">Ação: ${j.a}</span></td>
+                        <td class="p-4 text-stone-700 font-bold align-top leading-relaxed">${j.p}</td>
+                        <td class="p-4 align-top text-center"><span class="bg-white border border-stone-200 px-3 py-1 rounded-full font-black uppercase text-[8px] tracking-widest text-stone-600 shadow-sm">${j.e}</span></td>
+                        <td class="p-4 text-amber-600 font-black align-top leading-relaxed">${j.o}</td>
+                    </tr>
+                `).join('');
+            }
+
+            const jTouchpoints = document.getElementById('jornadas-touchpoints');
+            if (jTouchpoints && data.touchpoints) {
+                jTouchpoints.innerHTML = data.touchpoints.map(t => `
+                    <div class="bg-white px-4 py-2 rounded-xl border border-stone-200 text-[10px] font-bold shadow-sm">${t}</div>
+                `).join('');
+            }
+
+            // Competency Matrix Update (mantido na bio)
+            document.getElementById('competency-matrix-body').innerHTML = (data.matrix || []).map(m => `
+                <tr>
+                    <td class="py-3 text-stone-400 font-bold uppercase tracking-tighter w-1/3">${m.k}</td>
+                    <td class="py-3 text-yellow-400 font-black px-2 text-center border-l border-white/5 bg-white/5">${m.v}</td>
+                    <td class="py-3 text-stone-300 font-medium italic pl-3 leading-snug w-1/2">${m.i}</td>
+                </tr>
+            `).join('');
+
+            updateChart(data.chart);
+        }
+
+        function updateChart(values) {
+            const canvas = document.getElementById('radarChart');
+            if (!canvas) return;
+
+            const ctx = canvas.getContext('2d');
+            if (radarChartInstance) radarChartInstance.destroy();
+            radarChartInstance = new Chart(ctx, {
+                type: 'radar',
+                data: {
+                    labels: ['Info', 'Urgência', 'Dados', 'Ação', 'Mobile'],
+                    datasets: [{
+                        data: values,
+                        backgroundColor: 'rgba(250, 204, 21, 0.3)', borderColor: '#ca8a04',
+                        pointBackgroundColor: '#ca8a04', borderWidth: 2
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, scales: { r: { beginAtZero: true, max: 5, ticks: { display: false } } }, plugins: { legend: { display: false } } }
+            });
+        }
+
+        function renderSitemap() {
+            document.getElementById('sitemap-grid').innerHTML = sitemapData.map(c => `
+                <div class="space-y-4">
+                    <div class="p-3 bg-stone-900 text-yellow-400 text-[10px] font-black uppercase tracking-widest text-center rounded-xl border border-white/20 shadow-md">${c.cat}</div>
+                    <div class="space-y-2">
+                        ${c.items.map(i => `
+                            <div class="space-y-1">
+                                <div class="bg-white p-2 border border-stone-100 text-[9px] font-bold flex justify-between rounded shadow-sm">
+                                    ${i.name} <span class="page-tag">${i.tag}</span>
+                                </div>
+                                ${i.details ? i.details.map(d => `
+                                    <div class="sitemap-detail bg-stone-50/50 p-1.5 text-[8px] text-stone-500 font-medium italic">
+                                        <div class="flex justify-between">${d} <span class="page-tag !bg-transparent !border-none">D</span></div>
+                                        ${i.sub && i.sub[d] ? i.sub[d].map(s => `<div class="sub-detail">• ${s}</div>`).join('') : ''}
+                                    </div>
+                                `).join('') : ''}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        window.onload = () => { renderSitemap(); updatePersona('p1'); };
+    </script>
+</body>
+</html>
