@@ -78,6 +78,7 @@
             </div>
             
             <nav class="flex gap-3 lg:gap-6 text-[9px] lg:text-[10px] font-bold uppercase tracking-widest text-stone-900 overflow-x-auto pb-2 md:pb-0">
+                <button onclick="switchTab('seo')" id="nav-seo" class="nav-inactive whitespace-nowrap pb-2 transition-all">SEO & Tráfego</button>
                 <button onclick="switchTab('bio')" id="nav-bio" class="nav-active whitespace-nowrap pb-2 transition-all">Perfis</button>
                 <button onclick="switchTab('strategic')" id="nav-strategic" class="nav-inactive whitespace-nowrap pb-2 transition-all">Estratégia</button>
                 <button onclick="switchTab('flow')" id="nav-flow" class="nav-inactive whitespace-nowrap pb-2 transition-all">Jornadas</button>
@@ -776,6 +777,153 @@
                 </div>
             </div>
 
+            <!-- VIEW: SEO & TRÁFEGO -->
+            <div id="content-seo" class="tab-content space-y-12 animate-fade-in text-stone-900">
+                <div class="border-b border-stone-100 pb-6">
+                    <h2 class="text-3xl font-black text-stone-900 uppercase italic tracking-tighter">Estratégia de Tráfego e SEO 2026</h2>
+                    <p class="text-stone-500 text-sm mt-1">Alinhamento da arquitetura de informação com intenções de busca e posicionamento estratégico.</p>
+                </div>
+
+                <!-- Seção 1: Visão Geral -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-black uppercase tracking-tight italic border-b-2 border-yellow-400 inline-block pb-1">1. Visão Geral de Tráfego e Comportamento</h3>
+                    <p class="text-xs text-stone-500 italic">O website possui uma base sólida de aquisição, caracterizada por tráfego de alta qualidade e forte reconhecimento de marca nas campanhas core.</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="bg-white border-2 border-stone-100 p-6 rounded-3xl shadow-sm hover:border-yellow-200 transition-colors">
+                            <p class="text-[9px] font-black uppercase text-stone-400 mb-1 tracking-widest">Google (Orgânico)</p>
+                            <p class="text-3xl font-black text-stone-900">241.200 <span class="text-xs font-bold text-stone-400 uppercase tracking-widest">Sessões</span></p>
+                            <p class="text-xs text-stone-600 mt-3 font-medium leading-relaxed">Motor principal de novos utilizadores e retenção de atenção (duração média de 3m 26s, superior à média do site).</p>
+                        </div>
+                        <div class="bg-white border-2 border-stone-100 p-6 rounded-3xl shadow-sm hover:border-yellow-200 transition-colors">
+                            <p class="text-[9px] font-black uppercase text-stone-400 mb-1 tracking-widest">Tráfego Direto</p>
+                            <p class="text-3xl font-black text-stone-900">115.180 <span class="text-xs font-bold text-stone-400 uppercase tracking-widest">Sessões</span></p>
+                            <p class="text-xs text-stone-600 mt-3 font-medium leading-relaxed">Reflete o peso da marca em campanhas de forte mobilização pública.</p>
+                        </div>
+                        <div class="bg-stone-900 text-white p-6 rounded-3xl shadow-sm">
+                            <p class="text-[9px] font-black uppercase text-yellow-400 mb-3 tracking-widest">Páginas Top Performance</p>
+                            <ul class="text-xs space-y-2 font-medium opacity-90">
+                                <li>• Homepage (84K views)</li>
+                                <li>• Maratona de Cartas (62K views)</li>
+                                <li>• Apoiar a AI (45K views)</li>
+                                <li>• Consignar IRS (36K views)</li>
+                                <li>• Arquivo de Petições (32K views)</li>
+                                <li>• Declaração Universal DH (32K views)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção 2: Desafio Estratégico -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-black uppercase tracking-tight italic border-b-2 border-yellow-400 inline-block pb-1">2. Desafio da Intenção de Busca vs. Posicionamento</h3>
+                    <p class="text-xs text-stone-500 italic">Desfasamento entre pesquisas de alto volume em Portugal e o âmbito de atuação da AI.</p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <div class="bg-red-50 border-l-4 border-l-red-500 p-8 rounded-r-3xl shadow-sm">
+                            <h4 class="text-sm font-black uppercase tracking-widest text-red-700 mb-3 flex items-center gap-2"><span class="text-xl">⚠️</span> A Ilusão do Volume</h4>
+                            <p class="text-sm text-red-900 leading-relaxed font-medium">Termos como <strong>"Violência Doméstica" (37.9K pesquisas)</strong> e <strong>"Igualdade de Género" (17.5K)</strong> lideram as procuras em Portugal, gerando tráfego para entidades de apoio à vítima (como a APAV ou CIG).</p>
+                        </div>
+                        <div class="bg-stone-900 border-l-4 border-l-yellow-400 p-8 rounded-r-3xl shadow-sm text-white">
+                            <h4 class="text-sm font-black uppercase tracking-widest text-yellow-400 mb-3 flex items-center gap-2"><span class="text-xl">🎯</span> Decisão Estratégica</h4>
+                            <p class="text-sm text-stone-300 leading-relaxed">A Amnistia <strong>rejeita a criação de um "Hub de Apoio"</strong> para estes temas. A organização assume o seu papel de advocacia e investigação e não de apoio direto em território nacional. Temáticas fora do foco (ex: violência doméstica) são para excluir da estratégia orgânica.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seção 3: Plano de Ação SEO -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-black uppercase tracking-tight italic border-b-2 border-yellow-400 inline-block pb-1">3. Plano de Ação SEO por Eixo de Arquitetura</h3>
+                    <p class="text-xs text-stone-500 italic">Estratégia mapeada pelos 4 eixos ativos do novo sitemap.</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <!-- Eixo A -->
+                        <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm flex flex-col hover:border-blue-200 transition-colors">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="bg-blue-600 text-white integration-icon flex-shrink-0">A</div>
+                                <h4 class="text-sm font-black uppercase tracking-widest text-stone-900">Descobrir</h4>
+                            </div>
+                            <p class="text-[10px] uppercase font-black text-stone-400 mb-6 tracking-widest">Atualidade e Relevância</p>
+                            <div class="space-y-4">
+                                <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                    <span class="text-[9px] font-black uppercase text-blue-600 block mb-1">Captar a Curiosidade Noticiosa</span>
+                                    <p class="text-xs text-stone-800 leading-snug">Usar a área de Notícias e o Blog para dar a perspetiva dos Direitos Humanos sobre a atualidade, captando pesquisas sobre conflitos (ex: "cessar fogo", "guerra na ucrânia") perdidas para a Wikipédia/media.</p>
+                                </div>
+                                <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                    <span class="text-[9px] font-black uppercase text-blue-600 block mb-1">Hub de Vitórias</span>
+                                    <p class="text-xs text-stone-800 leading-snug">Mostrar impacto real (ex: casos de libertação) para gerar confiança logo na fase de descoberta.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Eixo B -->
+                        <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm flex flex-col hover:border-yellow-400 transition-colors">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="bg-yellow-400 text-stone-900 integration-icon flex-shrink-0">B</div>
+                                <h4 class="text-sm font-black uppercase tracking-widest text-stone-900">Compreender</h4>
+                            </div>
+                            <p class="text-[10px] uppercase font-black text-stone-400 mb-6 tracking-widest">O Motor de SEO e Autoridade (80% da força orgânica)</p>
+                            <div class="space-y-4">
+                                <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                    <span class="text-[9px] font-black uppercase text-amber-600 block mb-1">O "Santo Graal" do SEO</span>
+                                    <p class="text-xs text-stone-800 leading-snug">Tornar a página da <strong>Declaração Universal dos Direitos Humanos</strong> (maior ativo orgânico) ainda mais rica e interativa.</p>
+                                </div>
+                                <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                    <span class="text-[9px] font-black uppercase text-amber-600 block mb-1">Dominar o Core Business</span>
+                                    <p class="text-xs text-stone-800 leading-snug">Reforçar liderança isolada em temáticas como Pena de Morte e Tortura.</p>
+                                </div>
+                                <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                    <span class="text-[9px] font-black uppercase text-amber-600 block mb-1">Afunilar os Direitos da Criança</span>
+                                    <p class="text-xs text-stone-800 leading-snug">Estratégia altamente nichada focada em "Crianças em Conflito Armado" e "Sexualização" (sem competir com UNICEF).</p>
+                                </div>
+                                <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                    <span class="text-[9px] font-black uppercase text-amber-600 block mb-1">Limpar Termos Genéricos</span>
+                                    <p class="text-xs text-stone-800 leading-snug">Abandonar categorias com volumes residuais (ex: "Direitos Económicos, Sociais e Culturais").</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Eixo C -->
+                        <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm flex flex-col hover:border-red-400 transition-colors">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="bg-red-500 text-white integration-icon flex-shrink-0">C</div>
+                                <h4 class="text-sm font-black uppercase tracking-widest text-stone-900">Agir</h4>
+                            </div>
+                            <p class="text-[10px] uppercase font-black text-stone-400 mb-6 tracking-widest">Conversão e Mobilização (Estritamente transacional)</p>
+                            <div class="space-y-4">
+                                <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                    <span class="text-[9px] font-black uppercase text-red-600 block mb-1">Ações e Campanhas</span>
+                                    <p class="text-xs text-stone-800 leading-snug">O SEO foca-se na marca. Termos como "Maratona de Cartas" ou "Consignação IRS AI" garantem tráfego. Foco total em UI/UX para não perder conversões.</p>
+                                </div>
+                                <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                    <span class="text-[9px] font-black uppercase text-red-600 block mb-1">Nova Oportunidade (Denúncias)</span>
+                                    <p class="text-xs text-stone-800 leading-snug">Destaque da página de Denúncias ao lado de "Doar". Para evitar tráfego de gestão processual, não haverá área de "Acompanhar" (tracking) das denúncias.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Eixo D -->
+                        <div class="bg-white border-2 border-stone-100 p-8 rounded-3xl shadow-sm flex flex-col hover:border-green-400 transition-colors">
+                            <div class="flex items-center gap-4 mb-6">
+                                <div class="bg-green-600 text-white integration-icon flex-shrink-0">D</div>
+                                <h4 class="text-sm font-black uppercase tracking-widest text-stone-900">Sobre a AI</h4>
+                            </div>
+                            <p class="text-[10px] uppercase font-black text-stone-400 mb-6 tracking-widest">Credibilidade Institucional</p>
+                            <div class="space-y-4">
+                                <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                    <span class="text-[9px] font-black uppercase text-green-600 block mb-1">Educação para os Direitos Humanos (EDH)</span>
+                                    <p class="text-xs text-stone-800 leading-snug">Tráfego escolar movido para o eixo institucional, protegendo a área "Agir" apenas para ações transacionais.</p>
+                                </div>
+                                <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
+                                    <span class="text-[9px] font-black uppercase text-green-600 block mb-1">Transparência</span>
+                                    <p class="text-xs text-stone-800 leading-snug">Página dedicada à prestação de contas, essencial para converter quem pesquisa pela legitimidade e aplicação de fundos.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
     </main>
 
@@ -955,7 +1103,7 @@
             document.getElementById(`nav-${tabId}`).classList.remove('nav-inactive');
 
             const aside = document.getElementById('aside-personas');
-            if (['personal', 'requirements', 'integrations', 'relations'].includes(tabId)) aside.classList.add('hidden');
+            if (['personal', 'requirements', 'integrations', 'relations', 'seo'].includes(tabId)) aside.classList.add('hidden');
             else aside.classList.remove('hidden');
         }
 
